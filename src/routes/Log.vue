@@ -38,16 +38,22 @@ const index = ref(0)
         <ul class="overflow-auto snap-y snap-mandatory max-h-full px-4">
             <li class="h-[calc(1_/_8_*_100%)]"></li>
             <template v-for="(entry) of state" :key="entry.id">
-                <li v-for="(set) of entry.expand.sets" :key="set.id"
+                <li v-for="(set, setI) of entry.expand.sets" :key="set.id"
                     class="snap-center py-2 h-3/4 gap-4 transform transition-transform ease-in-out">
-                    <div class="p-4 h-full rounded bg-slate-900 flex flex-col">
+                    <div class="p-4 h-full rounded bg-slate-900 flex flex-col gap-4">
                         <div class="self-end text-slate-300">{{ set.set }} / {{ entry.expand.sets.length }}</div>
+                        <div class="flex h-2 gap-4">
+                            <div v-for="(_, i) of entry.expand.sets" :key="i" class="flex-1" :class="i <= setI ? 'bg-green-500' : 'bg-slate-500'"></div>
+                        </div>
                         <div>
                             <h2 class="text-5xl">{{ entry.expand.exercise.name }}</h2>
                         </div>
-                        <div class="flex-1">
-                            <div class="text-3xl">
-                                <input type="number" class="bg-transparent p-2 text-right" /> / {{ set.targetRep }}
+                        <div class="flex-1 flex flex-col gap-4">
+                            <div class="text-3xl rounded  bg-slate-800 focus-within:bg-green-300/30 pl-0">
+                                <input type="number" inputmode="numeric" class="focus:outline-none flex-1 bg-transparent p-2 text-right" /> / {{ set.targetRep }}
+                            </div>
+                            <div class="text-3xl rounded  bg-slate-800 focus-within:bg-green-300/30 pl-0">
+                                <input type="number" inputmode="numeric" class="focus:outline-none flex-1 bg-transparent p-2 text-right" /> kg
                             </div>
                         </div>
                         <div class="self-end">

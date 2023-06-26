@@ -10,18 +10,18 @@ const { login, authenticated } = useAuth()
 
 <template>
   <router-view></router-view>
-  <dialog :open="!authenticated">
-    <form @submit.prevent="login(username, password)">
-      <div>
-        <label for="username"></label>
-        <input id="username" type="text" v-model="username" />
+  <dialog :open="!authenticated" class="p-4 bg-slate-950 border text-slate-50 rounded">
+    <form @submit.prevent="login(username, password)" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
+        <label for="username">Username</label>
+        <input id="username" type="text" v-model="username" class="bg-transparent bg-slate-800 focus:bg-green-300/30 p-2 rounded" />
       </div>
-      <div>
-        <label for="password"></label>
-        <input id="password" type="password" v-model="password" />
+      <div class="flex flex-col gap-2">
+        <label for="password">Password</label>
+        <input id="password" type="password" v-model="password" class="bg-transparent bg-slate-800 focus:bg-green-300/30 p-2 rounded" />
       </div>
-      <div>
-        <button type="submit">Login</button>
+      <div class="text-right">
+        <button class="bg-green-700 rounded py-1 px-2 self-end" type="submit">Login</button>
       </div>
     </form>
   </dialog>
