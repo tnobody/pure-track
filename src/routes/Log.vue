@@ -49,8 +49,8 @@ const index = ref(0)
                             <h2 class="text-5xl">{{ entry.expand.exercise.name }}</h2>
                         </div>
                         <div class="flex-1 flex flex-col gap-4">
-                            <div class="flex text-3xl rounded  bg-slate-800 focus-within:bg-green-300/30 pl-0">
-                                <input type="number" inputmode="numeric" class="box-border focus:outline-none flex-1 bg-transparent p-2 text-right" />
+                            <div class="flex text-3xl rounded  bg-slate-800 focus-within:bg-green-300/30 pl-0 justify-end">
+                                <input type="number" inputmode="numeric" class="max-w-[50%] box-border focus:outline-none flex-1 bg-transparent p-2 text-right" />
                                  <div class="p-4 pl-0">/ {{ set.targetRep }}</div>
                             </div>
                             <div class="flex text-3xl rounded  bg-slate-800 focus-within:bg-green-300/30 pl-0">
