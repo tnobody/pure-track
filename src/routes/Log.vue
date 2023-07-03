@@ -1,24 +1,16 @@
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
-import { useCollection, usePocketbase } from "../composables/pocketbase";
+import { useCollection } from "../composables/pocketbase";
 import ExerciseCard from "../components/ExerciseCard.vue";
 import { ExerciseSet } from "../model/ExerciseSet";
 
 const { params } = useRoute();
 
-const pb = usePocketbase();
-
-const { state } = useAsyncState(
-  () =>
-    pb.collection("DayExercise").getFullList<ExerciseSet>({
-      filter: `day="${params.planId}"`,
-      sort: "order",
-      expand: "exercise,sets",
-    }),
-  []
-);
-
-const index = ref(0);
+const { data: state } = useCollection<ExerciseSet>("DayExercise", {
+  filter: `day="${params.planId}"`,
+  sort: "order",
+  expand: "exercise,sets",
+});
 </script>
 <template>
   <div class="flex flex-col h-full justify-center relative overflow-hidden">
