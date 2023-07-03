@@ -1,69 +1,25 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
-import { usePocketbase } from '../composables/pocketbase'
-import { useAsyncState } from '@vueuse/core';
-import { ref } from 'vue';
-
-type ExerciseSet = {
-    id: string,
-    set: number,
-    targetRep: number,
-    expand: {
-        exercise: {
-            name: string
-        },
-        sets: Array<{
-            id: string,
-            set: number,
-            targetRep: number
-        }>
-    },
-
-}
+import { useCollection, usePocketbase } from '../composables/pocketbase'
+import ExerciseCard from '../components/ExerciseCard.vue';
+import { ExerciseSet } from '../model/ExerciseSet';
 
 const { params } = useRoute();
 
 const pb = usePocketbase()
 
-const { state } = useAsyncState(() => pb.collection('DayExercise').getFullList<ExerciseSet>({
+const { data: state } = useCollection<ExerciseSet>('DayExercise', {
     filter: `day="${params.planId}"`,
     sort: 'order',
-    expand: 'exercise,sets'
-}), [])
+    expand: 'exercise,sets',
+})
 
-const index = ref(0)
 </script>
 <template>
     <div class="flex flex-col h-full justify-center relative overflow-hidden">
         <ul class="overflow-auto snap-y snap-mandatory max-h-full px-4">
             <li class="h-[calc(1_/_8_*_100%)]"></li>
-            <template v-for="(entry) of state" :key="entry.id">
-                <li v-for="(set, setI) of entry.expand.sets" :key="set.id"
-                    class="snap-center py-2 h-3/4 gap-4 transform transition-transform ease-in-out">
-                    <div class="p-4 h-full rounded bg-slate-900 flex flex-col gap-4">
-                        <div class="self-end text-slate-300">{{ set.set }} / {{ entry.expand.sets.length }}</div>
-                        <div class="flex h-2 gap-4">
-                            <div v-for="(_, i) of entry.expand.sets" :key="i" class="flex-1" :class="i <= setI ? 'bg-green-500' : 'bg-slate-500'"></div>
-                        </div>
-                        <div>
-                            <h2 class="text-5xl">{{ entry.expand.exercise.name }}</h2>
-                        </div>
-                        <div class="flex-1 flex flex-col gap-4">
-                            <label class="flex text-3xl rounded  bg-slate-800 focus-within:bg-green-300/30 pl-0 justify-end">
-                                <input type="number" inputmode="numeric" class="max-w-[50%] box-border focus:outline-none flex-1 bg-transparent p-2 text-right" />
-                                 <div class="p-4 pl-0">/ {{ set.targetRep }}</div>
-                            </label>
-                            <label class="flex text-3xl rounded  bg-slate-800 focus-within:bg-green-300/30 pl-0 justify-end">
-                                <input type="number" inputmode="decimal" class="max-w-[50%] box-border focus:outline-none flex-1 bg-transparent p-2 text-right" /> 
-                                <div class="p-4 pl-0">kg</div>
-                            </label>
-                        </div>
-                        <div class="self-end">
-                            <button class="bg-green-700 font-bold text-xl py-1 px-2 rounded" @click="index++">Next</button>
-                        </div>
-                    </div>
-                </li>
-            </template>
+            <ExerciseCard v-for="(entry) of state ?? []" :key="entry.id" :entry="entry" />
         </ul>
     </div>
 </template>
