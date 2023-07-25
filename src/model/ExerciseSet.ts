@@ -3,6 +3,10 @@ export type ExerciseSet = {
   set: number;
   targetRep: number;
   expand: {
+    day: {
+      id: string;
+      name: string;
+    };
     exercise: {
       id: string;
       name: string;
@@ -26,6 +30,6 @@ export type Log = {
   id: string;
   repetitions: number;
   set: number;
-  targetRep: string;
+  targetRep: number;
   weight: number;
 };
