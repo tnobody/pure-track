@@ -8,7 +8,6 @@ import { ExerciseSet } from "../model/ExerciseSet";
 import { waitForScrollEnd } from "../composables/useScrollEnd";
 import { usePersistedForm } from "../composables/usePersistedForm";
 import { useBatchCreate } from "../composables/useBatchSave";
-import { useLoading } from "../composables/useLoading";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -25,7 +24,6 @@ const cardRef = ref<{ scrollToMe(): void }[]>([]);
 const { x: xScroll } = useScroll(scrollContainerRef);
 const { width } = useElementBounding(scrollContainerRef);
 const form = usePersistedForm();
-const loading = useLoading();
 
 const scrollPct = computed(() =>
   scrollContainerRef.value
@@ -49,7 +47,7 @@ const handleForm = async (e: Event) => {
     const date = new Date().toISOString();
     const batchData = form.json.value.map((d) => ({ ...d, date }));
     logBatch.addBatch(batchData);
-    await logBatch.savePendingData()
+    await logBatch.savePendingData();
     form.clear();
     router.push("/");
   }

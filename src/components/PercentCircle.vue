@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-const props = defineProps({
+import { onMounted, ref } from "vue";
+defineProps({
   strokeWidth: { type: Number, default: 1 },
   foregroundCircleClass: { type: String, default: "" },
   backgroundCircleClass: { type: String, default: "" },
   percentage: { type: Number, required: true },
   showValue: { type: Boolean, default: false },
 });
-const strokeDashArray = computed(() =>
-  [props.percentage * 100, "100"].join(", ")
-);
 
 const mounted = ref(false);
 onMounted(() => {
