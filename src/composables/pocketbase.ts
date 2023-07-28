@@ -1,5 +1,5 @@
 import { InjectionKey, inject } from "vue";
-import Pocketbase, { ListQueryParams } from "pocketbase";
+import Pocketbase, { ListQueryParams, RecordListQueryParams } from "pocketbase";
 import { fail } from "../helper/fail";
 import useSWRV from "swrv";
 import LocalStorageCache from "swrv/dist/cache/adapters/localStorage";
@@ -24,6 +24,22 @@ export const useCollection = <T>(
       pb
         .collection(collection)
         .getFullList<T>({ $cancelKey: getKey(), ...queryParams }),
+    { cache }
+  );
+};
+
+export const useFirstFrom = <T>(
+  collection: string,
+  { filter = "", ...queryParams }: RecordListQueryParams
+) => {
+  const pb = usePocketbase();
+  const getKey = () => `${collection}?${new URLSearchParams(queryParams)}`;
+  return useSWRV(
+    getKey(),
+    () =>
+      pb
+        .collection(collection)
+        .getFirstListItem<T>(filter, { $cancelKey: getKey(), ...queryParams }),
     { cache }
   );
 };

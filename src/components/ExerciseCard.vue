@@ -2,6 +2,7 @@
 import { PropType, computed, ref } from "vue";
 import { ExerciseSet, Log } from "../model/ExerciseSet";
 import PercentCircle from "./PercentCircle.vue";
+import RelativeTime from "./RelativeTime.vue";
 import {
   DocumentDuplicateIcon,
   BarsArrowUpIcon,
@@ -44,10 +45,7 @@ const time = (ds: string) => {
 };
 </script>
 <template>
-  <li
-    ref="ulRef"
-    class="snap-start h-full w-screen gap-4 transform transition-transform ease-in-out"
-  >
+  <li ref="ulRef" class="snap-start h-full w-screen gap-4 transform transition-transform ease-in-out">
     <div class="p-4 h-full rounded bg-slate-900 flex flex-col gap-4">
       <div>
         <h2 class="text-2xl">{{ entry.expand.exercise.name }}</h2>
@@ -65,44 +63,25 @@ const time = (ds: string) => {
             <th class="font-normal text-center capitalize">Notiz</th>
           </tr>
         </thead>
-        <tbody
-          class="Xbg-slate-800 first:rounded-t last:rounded-b overflow-hidden"
-        >
+        <tbody class="first:rounded-t last:rounded-b overflow-hidden">
           <template v-for="set of entry.expand.sets" :key="set.id">
             <tr class="">
-              <td
-                class="p-4 pl-0 text-left text-green-700 font-bold flex items-start"
-              >
+              <td class="p-4 pl-0 text-left text-green-700 font-bold flex items-start">
                 {{ set.set }}
                 <input type="hidden" name="set" :value="set.set" />
                 <input type="hidden" name="day" :value="entry.expand.day.id" />
                 <input type="hidden" name="targetRep" :value="set.targetRep" />
-                <input
-                  type="hidden"
-                  name="exercise"
-                  :value="entry.expand.exercise.id"
-                />
+                <input type="hidden" name="exercise" :value="entry.expand.exercise.id" />
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input
-                    name="repetitions"
-                    type="number"
-                    inputmode="decimal"
-                    step="0.01"
-                    :placeholder="'' + set.targetRep"
-                  />
+                  <input name="repetitions" type="number" inputmode="decimal" step="0.01"
+                    :placeholder="'' + set.targetRep" />
                 </label>
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input
-                    name="weight"
-                    type="number"
-                    inputmode="decimal"
-                    step="0.01"
-                    placeholder="0"
-                  />
+                  <input name="weight" type="number" inputmode="decimal" step="0.01" placeholder="0" />
                 </label>
               </td>
               <td colspan="">
@@ -120,27 +99,14 @@ const time = (ds: string) => {
         </tbody>
       </table>
       <div class="flex-1">
-        <ul
-          v-for="group in history"
-          class="flex flex-col gap-4"
-          :key="group.date"
-        >
+        <ul v-for="group in history" class="flex flex-col gap-4" :key="group.date">
           <li class="text-center font-bold text-sm text-slate-500 flex">
-            {{ time(group.date) }}
+            <relative-time :date="group.date" />
           </li>
-          <li
-            v-for="h in group.logs"
-            :key="h.id"
-            class="flex items-center gap-4"
-          >
+          <li v-for="h in group.logs" :key="h.id" class="flex items-center gap-4">
             <div class="w-[2ch]">{{ h.set }}</div>
-            <PercentCircle
-              :percentage="h.repetitions / h.targetRep"
-              class="w-4 h-4"
-              foregroundCircleClass="text-red-500"
-              backgroundCircleClass="text-slate-300"
-              :strokeWidth="5"
-            />
+            <PercentCircle :percentage="h.repetitions / h.targetRep" class="w-4 h-4" foregroundCircleClass="text-red-500"
+              backgroundCircleClass="text-slate-300" :strokeWidth="5" />
             <div>{{ h.repetitions }} / {{ h.targetRep }}</div>
             <div class="flex-1 text-right">{{ h.weight }}kg</div>
             <button class="hidden">

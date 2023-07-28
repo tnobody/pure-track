@@ -3,6 +3,8 @@ import { useCollection } from "../composables/pocketbase";
 import { RouterLink } from "vue-router";
 import { usePersistedForm } from "../composables/usePersistedForm";
 import { computed } from "vue";
+import LastDay from "../components/LastDay.vue";
+import ActionButton from "../components/ActionButton.vue";
 
 const { data: state } = useCollection<{ id: string; name: string }>("PlanDay", {
   sort: 'order'
@@ -14,17 +16,18 @@ const currentPlan = computed(() => {
     return json.value[0]['day'];
   }
 })
-
 </script>
-
 <template>
   <div class="p-4 flex flex-col gap-4">
-    <h1 class="text-3xl text-green-700 font-bold">Choose Day</h1>
-    <section v-if="currentPlan" class="flex flex-col gap-4 mb-4">
+    <h1 class="text-3xl text-green-700 font-bold text-center" style="font-variant:small-caps;">PureTrack</h1>
+    <section v-if="currentPlan" class="flex flex-col gap-4 mb-4 bg-slate-900 rounded p-4">
       <span>Letztes Training nicht abgeschlossen</span>
-      <router-link :to="'/log/' + currentPlan" class="px-4 py-2 text-center rounded bg-green-500">
-        Training fortsetzen
+      <router-link custom v-slot="{ navigate }" :to="'/log/' + currentPlan">
+        <action-button @click="navigate">Training fortsetzen</action-button>
       </router-link>
+    </section>
+    <section v-if="!currentPlan">
+      <last-day></last-day>
     </section>
     <ul class="bg-slate-900 first:rounded-t last:rounded-b divide-y divide-slate-800">
       <li v-for="day of state" :key="day.id" class="flex">

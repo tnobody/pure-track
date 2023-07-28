@@ -28,9 +28,9 @@ const form = usePersistedForm();
 const scrollPct = computed(() =>
   scrollContainerRef.value
     ? Math.min(
-        1,
-        (xScroll.value + width.value) / scrollContainerRef.value.scrollWidth
-      )
+      1,
+      (xScroll.value + width.value) / scrollContainerRef.value.scrollWidth
+    )
     : 0
 );
 
@@ -81,70 +81,53 @@ const goToResults = async () =>
   });
 const next = () => goto(index.value + 1);
 const prev = () => goto(index.value - 1);
+
+const abortAnd = (then: () => any) => {
+  const confirmed = confirm("Willst du wirklich abbrechen?");
+  console.log(confirmed, then);
+  if (confirmed) {
+    form.clear();
+    then();
+  }
+}
 </script>
 <template>
-  <form
-    :ref="form.ref"
-    @change="form.persist()"
-    @submit.prevent="handleForm($event as SubmitEvent)"
-    class="flex flex-col h-full justify-center relative overflow-hidden"
-  >
-    <div
-      class="bg-slate-900 left-0 right-0 top-0 pt-4 px-4 flex gap-2 transition-transform duration-300 ease-in"
-      :class="{ '-translate-y-full': isOnResultPage }"
-    >
-      <div
-        v-for="(entry, i) of state ?? []"
-        :key="entry.id"
-        class="h-2 flex-1 transition-all duration-300"
-        :class="[
-          { 'flex-[3] rounded': index === i },
-          i <= index ? 'bg-green-600' : 'bg-slate-700',
-        ]"
-      ></div>
+  <form :ref="form.ref" @change="form.persist()" @submit.prevent="handleForm($event as SubmitEvent)"
+    class="flex flex-col h-full justify-center relative overflow-hidden">
+    <div class="bg-slate-900 left-0 right-0 top-0 pt-4 px-4 flex gap-2 transition-transform duration-300 ease-in"
+      :class="{ '-translate-y-full': isOnResultPage }">
+      <div v-for="(entry, i) of state ?? []" :key="entry.id" class="h-2 flex-1 transition-all duration-300" :class="[
+        { 'flex-[3] rounded': index === i },
+        i <= index ? 'bg-green-600' : 'bg-slate-700',
+      ]"></div>
     </div>
     <ul
       class="overflow-hidden grid grid-flow-col snap-x snap-mandatory overscroll-x-contain w-full flex-1 max-w-full max-h-full"
-      ref="scrollContainerRef"
-    >
-      <ExerciseCard
-        v-for="entry of state"
-        ref="cardRef"
-        :key="entry.id"
-        :entry="entry"
-      />
-      <li
-        ref="resultPage"
-        class="overflow-auto snap-start h-full w-screen gap-4 p-4 transform transition-transform ease-in-out"
-      >
+      ref="scrollContainerRef">
+      <ExerciseCard v-for="entry of state" ref="cardRef" :key="entry.id" :entry="entry" />
+      <li ref="resultPage"
+        class="overflow-auto snap-start h-full w-screen gap-4 p-4 transform transition-transform ease-in-out">
         <ResultPage :log-data="form.json.value" />
       </li>
     </ul>
-    <div
-      class="p-4 flex justify-between relative transition-transform duration-300 ease-in"
-      :class="{ 'translate-y-[calc(100%+2rem)]': isOnResultPage }"
-    >
-      <div
-        class="absolute -top-8 flex pointer-events-none justify-center left-0 right-0"
-      >
-        <button
-          @click.prevent=""
-          class="w-16 h-16 p-2 pointer-events-auto rounded-full bg-slate-950 text-green-600"
-        >
+    <div class="p-4 flex justify-between relative transition-transform duration-300 ease-in"
+      :class="{ 'translate-y-[calc(100%+2rem)]': isOnResultPage }">
+      <div class="absolute -top-8 flex pointer-events-none justify-center left-0 right-0">
+        <button @click.prevent="" class="w-16 h-16 p-2 pointer-events-auto rounded-full bg-slate-950 text-green-600">
           <ClockIcon />
         </button>
       </div>
       <div>
+        <router-link v-if="index === 0" custom to="/" v-slot="{ navigate }">
+          <button @click.prevent="abortAnd(navigate)">Abbrechen</button>
+        </router-link>
         <button v-if="index !== 0" @click.prevent="prev()">Zurück</button>
       </div>
       <div>
         <button v-if="index < state.length - 1" @click.prevent="next()">
           Weiter
         </button>
-        <button
-          v-if="index === state.length - 1"
-          @click.prevent="goToResults()"
-        >
+        <button v-if="index === state.length - 1" @click.prevent="goToResults()">
           Abschliessen
         </button>
       </div>
