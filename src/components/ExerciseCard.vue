@@ -37,12 +37,6 @@ const history = computed(() => {
   return Object.entries(obj).map(([date, logs]) => ({ date, logs }));
 });
 
-const format = new Intl.RelativeTimeFormat();
-const time = (ds: string) => {
-  const days =
-    -1 * Math.ceil((Date.now() - new Date(ds).getTime()) / 1000 / 60 / 60 / 24);
-  return format.format(days, "days");
-};
 </script>
 <template>
   <li ref="ulRef" class="snap-start h-full w-screen gap-4 transform transition-transform ease-in-out">
