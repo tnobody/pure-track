@@ -24,7 +24,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    <dialog ref="dialogRef" class="z-20 bg-slate-900 rounded border text-slate-100 shadow-lg relative">
+    <dialog :open="open" ref="dialogRef" class="z-20 bg-slate-900 rounded border text-slate-100 shadow-lg relative">
         <slot />
     </dialog>
 </template>

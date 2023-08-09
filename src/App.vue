@@ -17,7 +17,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <timer />
   <router-view></router-view>
   <div v-show="loading.blocking.value"
     class="absolute inset-0 flex items-center justify-center backdrop-blur bg-black/70 transition-all">
@@ -26,6 +25,7 @@ onMounted(() => {
         background-circle-class="text-transparent" />
     </div>
   </div>
+  <timer />
   <dialog :open="!authenticated" class="p-4 bg-slate-950 border text-slate-50 rounded">
     <form @submit.prevent="login(username, password)" class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">

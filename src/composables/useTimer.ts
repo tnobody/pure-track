@@ -5,6 +5,7 @@ export const useTimer = createGlobalState(() => {
   const countdownFrom = ref(60);
   const elapsedTime = ref(0);
   const initialTime = ref(0);
+  const isOpen = ref(false);
   const isRunning = ref(false);
   const elapsedSeconds = computed(() => Math.ceil(elapsedTime.value / 1000));
   const remainingTime = computed(
@@ -39,9 +40,24 @@ export const useTimer = createGlobalState(() => {
     isRunning.value = false;
   };
 
+  const show = () => {
+    isOpen.value = true;
+    start();
+    console.log('Open');
+    
+  };
+
+  const hide = () => {
+    stop();
+    isOpen.value = false;
+  };
+
   return {
     start,
     stop,
+    show,
+    hide,
+    isOpen,
     elapsedSeconds,
     elapsedPercent,
     remainingTime,
