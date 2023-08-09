@@ -9,6 +9,7 @@ import { waitForScrollEnd } from "../composables/useScrollEnd";
 import { usePersistedForm } from "../composables/usePersistedForm";
 import { useBatchCreate } from "../composables/useBatchSave";
 import { useRouter } from "vue-router";
+import { useTimer } from "../composables/useTimer";
 
 const props = defineProps({
   exerciseSets: { type: Object as PropType<ExerciseSet[]>, required: true },
@@ -24,6 +25,7 @@ const cardRef = ref<{ scrollToMe(): void }[]>([]);
 const { x: xScroll } = useScroll(scrollContainerRef);
 const { width } = useElementBounding(scrollContainerRef);
 const form = usePersistedForm();
+const timer = useTimer();
 
 const scrollPct = computed(() =>
   scrollContainerRef.value
@@ -113,7 +115,8 @@ const abortAnd = (then: () => any) => {
     <div class="p-4 flex justify-between relative transition-transform duration-300 ease-in"
       :class="{ 'translate-y-[calc(100%+2rem)]': isOnResultPage }">
       <div class="absolute -top-8 flex pointer-events-none justify-center left-0 right-0">
-        <button @click.prevent="" class="w-16 h-16 p-2 pointer-events-auto rounded-full bg-slate-950 text-green-600">
+        <button @click.prevent="timer.show()"
+          class="w-16 h-16 p-2 pointer-events-auto rounded-full bg-slate-950 text-green-600">
           <ClockIcon />
         </button>
       </div>
