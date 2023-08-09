@@ -97,15 +97,18 @@ const history = computed(() => {
           <li class="text-center font-bold text-sm text-slate-500 flex">
             <relative-time :date="group.date" />
           </li>
-          <li v-for="h in group.logs" :key="h.id" class="flex items-center gap-4">
-            <div class="w-[2ch]">{{ h.set }}</div>
-            <PercentCircle :percentage="h.repetitions / h.targetRep" class="w-4 h-4" foregroundCircleClass="text-red-500"
-              backgroundCircleClass="text-slate-300" :strokeWidth="5" />
-            <div>{{ h.repetitions }} / {{ h.targetRep }}</div>
-            <div class="flex-1 text-right">{{ h.weight }}kg</div>
-            <button class="hidden">
-              <BarsArrowUpIcon class="w-4 h-4 text-slate-400" />
-            </button>
+          <li v-for="h in group.logs" :key="h.id" class="flex flex-col gap-2">
+            <div class="flex items-center gap-4">
+              <div class="w-[2ch]">{{ h.set }}</div>
+              <PercentCircle :percentage="h.repetitions / h.targetRep" class="w-4 h-4"
+                foregroundCircleClass="text-red-500" backgroundCircleClass="text-slate-300" :strokeWidth="5" />
+              <div>{{ h.repetitions }} / {{ h.targetRep }}</div>
+              <div class="flex-1 text-right">{{ h.weight }}kg</div>
+              <button class="hidden">
+                <BarsArrowUpIcon class="w-4 h-4 text-slate-400" />
+              </button>
+            </div>
+            <div v-if="h.comment" class=" text-center text-sm text-slate-500 italic before:content-[open-quote] after:content-[close-quote]">{{ h.comment }}</div>
           </li>
         </ul>
       </div>
