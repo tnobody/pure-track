@@ -6,6 +6,7 @@ import Pocketbase from "pocketbase";
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "./routes/Index.vue";
 import Log from "./routes/Log.vue";
+import { TouchedDirective } from "./directive/touched-directive";
 
 createApp(App)
   .use(
@@ -24,4 +25,5 @@ createApp(App)
       return pb;
     })()
   )
+  .directive("touched", TouchedDirective)
   .mount("#app");

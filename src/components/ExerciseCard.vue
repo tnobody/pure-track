@@ -90,13 +90,13 @@ const applyToNextFreeFormSpot = (repetitions: number, weight: number) => {
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input required name="repetitions" type="number" @focus="selectOnFocus($event)" inputmode="decimal" step="1"
+                  <input v-touched required name="repetitions" type="number" @focus="selectOnFocus($event)" inputmode="decimal" step="1"
                     :placeholder="'' + set.targetRep" />
                 </label>
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input required name="weight" type="number" inputmode="decimal" @focus="selectOnFocus($event)" step="0.01"
+                  <input v-touched required name="weight" type="number" inputmode="decimal" @focus="selectOnFocus($event)" step="0.01"
                     placeholder="0" />
                 </label>
               </td>
@@ -144,6 +144,10 @@ const applyToNextFreeFormSpot = (repetitions: number, weight: number) => {
 <style>
 input {
   @apply w-full box-border rounded bg-green-300/10 focus:outline-none flex-1 p-2;
+}
+
+input.touched {
+  @apply invalid:ring-red-600 ring-offset-0 invalid:ring-2
 }
 
 input[type="number"] {
