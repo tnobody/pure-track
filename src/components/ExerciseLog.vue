@@ -112,11 +112,7 @@ const abortAnd = (then: () => any) => {
     </ul>
     <div class="p-4 flex justify-between relative transition-transform duration-300 ease-in"
       :class="{ 'translate-y-[calc(100%+2rem)]': isOnResultPage }">
-      <div class="absolute -top-8 flex pointer-events-none justify-center left-0 right-0">
-        <button @click.prevent="" class="w-16 h-16 p-2 pointer-events-auto rounded-full bg-slate-950 text-green-600">
-          <ClockIcon />
-        </button>
-      </div>
+      
       <div>
         <router-link v-if="index === 0" custom to="/" v-slot="{ navigate }">
           <button @click.prevent="abortAnd(navigate)">Abbrechen</button>

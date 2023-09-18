@@ -3,9 +3,9 @@ import { PropType, computed, ref } from "vue";
 import { ExerciseSet, Log } from "../model/ExerciseSet";
 import PercentCircle from "./PercentCircle.vue";
 import RelativeTime from "./RelativeTime.vue";
+import ApplySelectorButton from "./ApplySelectorButton.vue";
 import {
   DocumentDuplicateIcon,
-  BarsArrowUpIcon,
 } from "@heroicons/vue/24/outline";
 import { usePagedCollection } from "../composables/pocketbase";
 
@@ -36,6 +36,12 @@ const history = computed(() => {
     }, {} as Record<string, Log[]>) ?? [];
   return Object.entries(obj).map(([date, logs]) => ({ date, logs }));
 });
+
+const selectOnFocus = (e: FocusEvent) => {
+  if (e.target instanceof HTMLInputElement) {
+    e.target.select()
+  }
+}
 
 </script>
 <template>
@@ -69,13 +75,14 @@ const history = computed(() => {
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input name="repetitions" type="number" inputmode="decimal" step="0.01"
+                  <input name="repetitions" type="number" @focus="selectOnFocus($event)" inputmode="decimal" step="1.25"
                     :placeholder="'' + set.targetRep" />
                 </label>
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input name="weight" type="number" inputmode="decimal" step="0.01" placeholder="0" />
+                  <input name="weight" type="number" inputmode="decimal" @focus="selectOnFocus($event)" step="0.01"
+                    placeholder="0" />
                 </label>
               </td>
               <td colspan="">
@@ -104,11 +111,10 @@ const history = computed(() => {
                 foregroundCircleClass="text-red-500" backgroundCircleClass="text-slate-300" :strokeWidth="5" />
               <div>{{ h.repetitions }} / {{ h.targetRep }}</div>
               <div class="flex-1 text-right">{{ h.weight }}kg</div>
-              <button class="hidden">
-                <BarsArrowUpIcon class="w-4 h-4 text-slate-400" />
-              </button>
             </div>
-            <div v-if="h.comment" class=" text-center text-sm text-slate-500 italic before:content-[open-quote] after:content-[close-quote]">{{ h.comment }}</div>
+            <div v-if="h.comment"
+              class=" text-center text-sm text-slate-500 italic before:content-[open-quote] after:content-[close-quote]">
+              {{ h.comment }}</div>
           </li>
         </ul>
       </div>
