@@ -1,9 +1,6 @@
 import { Directive } from "vue";
 
-export const TouchedDirective: Directive = (
-  el: HTMLElement,
-  bindings: unknown
-) => {
+export const TouchedDirective: Directive = (el: HTMLElement) => {
   const opts = {
     once: true,
   };

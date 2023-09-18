@@ -2,7 +2,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { ArrowDownRightIcon, ArrowRightIcon, ArrowUpRightIcon, EllipsisVerticalIcon } from '@heroicons/vue/24/outline';
 const itemClass = "flex items-center gap-4 p-2 rounded hover:bg-white/20"
-const props = defineProps({
+defineProps({
     step: { type: Number, default: 1 }
 })
 const emit = defineEmits<{

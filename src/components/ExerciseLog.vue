@@ -3,7 +3,6 @@ import ExerciseCard from "../components/ExerciseCard.vue";
 import ResultPage from "../components/ResultPage.vue";
 import { useElementBounding, useScroll } from "@vueuse/core";
 import { PropType, computed, reactive, ref, watch } from "vue";
-import { ClockIcon } from "@heroicons/vue/24/outline";
 import { ExerciseSet } from "../model/ExerciseSet";
 import { waitForScrollEnd } from "../composables/useScrollEnd";
 import { usePersistedForm } from "../composables/usePersistedForm";
