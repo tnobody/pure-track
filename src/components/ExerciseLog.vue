@@ -76,11 +76,15 @@ const goto = async (i: number) =>
   });
 
 const goToResults = async () => {
-  if (form.reportValidity()) {
-    await autoScroll(async () => {
+  await autoScroll(async () => {
+    const invalidElement = form.reportValidity()
+    if (invalidElement) {
+      invalidElement.scrollIntoView({ behavior: "smooth" });
+      invalidElement.reportValidity()
+    } else {
       resultPage.value?.scrollIntoView({ behavior: "smooth" });
-    });
-  }
+    }
+  });
 }
 const next = () => goto(index.value + 1);
 const prev = () => goto(index.value - 1);

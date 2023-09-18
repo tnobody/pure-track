@@ -29,8 +29,19 @@ export const usePersistedForm = () => {
   return {
     ref: formRef,
     json,
-    reportValidity() {
-      return formRef.value?.reportValidity();
+    /**
+     *
+     * @returns the first invalid element or undefined
+     */
+    reportValidity(): HTMLInputElement | undefined {
+      const inputs: HTMLInputElement[] = Array.from(
+        formRef.value?.querySelectorAll("input[required]") ?? { length: 0 }
+      );
+      for (const input of inputs) {
+        if (!input.checkValidity()) {
+          return input;
+        }
+      }
     },
     persist: (form?: HTMLFormElement) => {
       const f = form ?? formRef.value;
