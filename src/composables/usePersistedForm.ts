@@ -29,6 +29,9 @@ export const usePersistedForm = () => {
   return {
     ref: formRef,
     json,
+    reportValidity() {
+      return formRef.value?.reportValidity();
+    },
     persist: (form?: HTMLFormElement) => {
       const f = form ?? formRef.value;
       if (!f) return;

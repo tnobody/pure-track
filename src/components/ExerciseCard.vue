@@ -3,8 +3,8 @@ import { PropType, computed, ref } from "vue";
 import { ExerciseSet, Log } from "../model/ExerciseSet";
 import PercentCircle from "./PercentCircle.vue";
 import RelativeTime from "./RelativeTime.vue";
-import ApplySelectorButton from "./ApplySelectorButton.vue";
 import {
+  ArrowUpOnSquareStackIcon,
   DocumentDuplicateIcon,
 } from "@heroicons/vue/24/outline";
 import { usePagedCollection } from "../composables/pocketbase";
@@ -43,6 +43,21 @@ const selectOnFocus = (e: FocusEvent) => {
   }
 }
 
+const applyToNextFreeFormSpot = (repetitions: number, weight: number) => {
+  for (const row of Array.from(ulRef.value?.querySelectorAll('.input-row') ?? { length: 0 })) {
+    const [repetitionsInput, weightInput] = [
+      row.querySelector('input[name="repetitions"]') as HTMLInputElement,
+      row.querySelector('input[name="weight"]') as HTMLInputElement,
+    ]
+    if (!repetitionsInput.value && !weightInput.value) {
+      repetitionsInput.value = `${repetitions}`
+      weightInput.value = `${weight}`
+      ulRef.value?.closest('form')?.dispatchEvent(new Event('change'));
+      break;
+    }
+  }
+}
+
 </script>
 <template>
   <li ref="ulRef" class="snap-start h-full w-screen gap-4 transform transition-transform ease-in-out">
@@ -65,7 +80,7 @@ const selectOnFocus = (e: FocusEvent) => {
         </thead>
         <tbody class="first:rounded-t last:rounded-b overflow-hidden">
           <template v-for="set of entry.expand.sets" :key="set.id">
-            <tr class="">
+            <tr class="input-row">
               <td class="p-4 pl-0 text-left text-green-700 font-bold flex items-start">
                 {{ set.set }}
                 <input type="hidden" name="set" :value="set.set" />
@@ -75,13 +90,13 @@ const selectOnFocus = (e: FocusEvent) => {
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input name="repetitions" type="number" @focus="selectOnFocus($event)" inputmode="decimal" step="1.25"
+                  <input required name="repetitions" type="number" @focus="selectOnFocus($event)" inputmode="decimal" step="1"
                     :placeholder="'' + set.targetRep" />
                 </label>
               </td>
               <td>
                 <label class="flex p-2 justify-end">
-                  <input name="weight" type="number" inputmode="decimal" @focus="selectOnFocus($event)" step="0.01"
+                  <input required name="weight" type="number" inputmode="decimal" @focus="selectOnFocus($event)" step="0.01"
                     placeholder="0" />
                 </label>
               </td>
@@ -111,6 +126,11 @@ const selectOnFocus = (e: FocusEvent) => {
                 foregroundCircleClass="text-red-500" backgroundCircleClass="text-slate-300" :strokeWidth="5" />
               <div>{{ h.repetitions }} / {{ h.targetRep }}</div>
               <div class="flex-1 text-right">{{ h.weight }}kg</div>
+              <div>
+                <button @click.prevent="applyToNextFreeFormSpot(h.repetitions, h.weight)">
+                  <ArrowUpOnSquareStackIcon class="h-4 w-4" />
+                </button>
+              </div>
             </div>
             <div v-if="h.comment"
               class=" text-center text-sm text-slate-500 italic before:content-[open-quote] after:content-[close-quote]">

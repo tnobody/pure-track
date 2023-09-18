@@ -75,16 +75,18 @@ const goto = async (i: number) =>
     cardRef.value[index.value]?.scrollToMe();
   });
 
-const goToResults = async () =>
-  autoScroll(async () => {
-    resultPage.value?.scrollIntoView({ behavior: "smooth" });
-  });
+const goToResults = async () => {
+  if (form.reportValidity()) {
+    await autoScroll(async () => {
+      resultPage.value?.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+}
 const next = () => goto(index.value + 1);
 const prev = () => goto(index.value - 1);
 
 const abortAnd = (then: () => any) => {
   const confirmed = confirm("Willst du wirklich abbrechen?");
-  console.log(confirmed, then);
   if (confirmed) {
     form.clear();
     then();
@@ -107,12 +109,11 @@ const abortAnd = (then: () => any) => {
       <ExerciseCard v-for="entry of state" ref="cardRef" :key="entry.id" :entry="entry" />
       <li ref="resultPage"
         class="overflow-auto snap-start h-full w-screen gap-4 p-4 transform transition-transform ease-in-out">
-        <ResultPage :log-data="form.json.value" />
+        <ResultPage :log-data="form.json.value" @abort="goto(0)" />
       </li>
     </ul>
     <div class="p-4 flex justify-between relative transition-transform duration-300 ease-in"
       :class="{ 'translate-y-[calc(100%+2rem)]': isOnResultPage }">
-      
       <div>
         <router-link v-if="index === 0" custom to="/" v-slot="{ navigate }">
           <button @click.prevent="abortAnd(navigate)">Abbrechen</button>
