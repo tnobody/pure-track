@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PercentCircle from "./components/PercentCircle.vue";
 import { useAuth } from "./composables/useAuth";
 import { useBatchCreate } from "./composables/useBatchSave";
 import { useLoading } from "./composables/useLoading";

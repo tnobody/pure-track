@@ -11,7 +11,7 @@ export default {
         mytheme: {
           ...require("daisyui/src/theming/themes")["dark"],
           primary: "#15803D",
-          secondary: "#152380",
+          secondary: "#1CAC52",
         },
       },
     ],
