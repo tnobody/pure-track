@@ -3,7 +3,7 @@ import { useCollection } from "../composables/pocketbase";
 import { RouterLink } from "vue-router";
 import { usePersistedForm } from "../composables/usePersistedForm";
 import { computed } from "vue";
-import LastDay from "../components/LastDay.vue";
+import NextDay from "../components/NextDay.vue";
 import ActionButton from "../components/ActionButton.vue";
 
 const { data: state } = useCollection<{ id: string; name: string }>("PlanDay", {
@@ -20,21 +20,22 @@ const currentPlan = computed(() => {
 <template>
   <div class="p-4 flex flex-col gap-4">
     <h1 class="text-3xl text-green-700 font-bold text-center" style="font-variant:small-caps;">PureTrack</h1>
-    <section v-if="currentPlan" class="flex flex-col gap-4 mb-4 bg-slate-900 rounded p-4">
-      <span>Letztes Training nicht abgeschlossen</span>
-      <router-link custom v-slot="{ navigate }" :to="'/log/' + currentPlan">
-        <action-button @click="navigate">Training fortsetzen</action-button>
-      </router-link>
+    <section v-if="currentPlan" class="card bg-base-200">
+      <div class="card-body">
+        <span>Letztes Training nicht abgeschlossen</span>
+        <router-link custom v-slot="{ navigate }" :to="'/log/' + currentPlan">
+          <action-button @click="navigate">Training fortsetzen</action-button>
+        </router-link>
+      </div>
     </section>
     <section v-if="!currentPlan">
-      <last-day></last-day>
+      <next-day></next-day>
     </section>
-    <ul class="bg-slate-900 first:rounded-t last:rounded-b divide-y divide-slate-800">
-      <li v-for="day of state" :key="day.id" class="flex">
-        <router-link @click.native="clear()" :to="'/log/' + day.id" class="p-4 w-full text-left font-bold">
-          {{ day.name }}
-        </router-link>
-      </li>
-    </ul>
+
+    <section class="card bg-base-200 bg-neutral-color join join-vertical">
+      <router-link v-for="day of state" :key="day.id" @click.native="clear()" :to="'/log/' + day.id" v-slot="{ navigate }">
+        <button @click="navigate" class="join-item btn text-left font-bold">{{ day.name }}</button>
+      </router-link>
+    </section>
   </div>
 </template>

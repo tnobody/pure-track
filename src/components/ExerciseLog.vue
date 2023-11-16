@@ -98,12 +98,12 @@ const abortAnd = (then: () => any) => {
 </script>
 <template>
   <form :ref="form.ref" @change="form.persist()" @submit.prevent="handleForm($event as SubmitEvent)"
-    class="flex flex-col h-full justify-center relative overflow-hidden">
-    <div class="bg-slate-900 left-0 right-0 top-0 pt-4 px-4 flex gap-2 transition-transform duration-300 ease-in"
+    class="bg-base-100 flex flex-col h-full justify-center relative overflow-hidden">
+    <div class=" left-0 right-0 top-0 pt-4 px-4 flex gap-2 transition-transform duration-300 ease-in"
       :class="{ '-translate-y-full': isOnResultPage }">
       <div v-for="(entry, i) of state ?? []" :key="entry.id" class="h-2 flex-1 transition-all duration-300" :class="[
         { 'flex-[3] rounded': index === i },
-        i <= index ? 'bg-green-600' : 'bg-slate-700',
+        i <= index ? 'bg-primary' : 'bg-neutral',
       ]"></div>
     </div>
     <ul
@@ -115,19 +115,19 @@ const abortAnd = (then: () => any) => {
         <ResultPage :log-data="form.json.value" @abort="goto(0)" />
       </li>
     </ul>
-    <div class="p-4 flex justify-between relative transition-transform duration-300 ease-in"
+    <div class="bg-base-200 p-4 flex justify-between relative transition-transform duration-300 ease-in"
       :class="{ 'translate-y-[calc(100%+2rem)]': isOnResultPage }">
       <div>
         <router-link v-if="index === 0" custom to="/" v-slot="{ navigate }">
-          <button @click.prevent="abortAnd(navigate)">Abbrechen</button>
+          <button class="btn btn-sm btn-ghost" @click.prevent="abortAnd(navigate)">Abbrechen</button>
         </router-link>
-        <button v-if="index !== 0" @click.prevent="prev()">Zurück</button>
+        <button class="btn btn-sm btn-ghost" v-if="index !== 0" @click.prevent="prev()">Zurück</button>
       </div>
       <div>
-        <button v-if="index < state.length - 1" @click.prevent="next()">
+        <button class="btn btn-sm btn-ghost" v-if="index < state.length - 1" @click.prevent="next()">
           Weiter
         </button>
-        <button v-if="index === state.length - 1" @click.prevent="goToResults()">
+        <button class="btn btn-sm btn-ghost"  v-if="index === state.length - 1" @click.prevent="goToResults()">
           Abschliessen
         </button>
       </div>
