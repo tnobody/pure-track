@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
+
+.modal:not(dialog:not(.modal-open)), .modal::backdrop {
+    @apply backdrop-blur;
+}
+
+.card {
+    @apply rounded-btn;
+}
+
+.card-body {
+    @apply p-4 gap-4;
+}
+
 @tailwind utilities;

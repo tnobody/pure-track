@@ -96,10 +96,10 @@ const weightDirection = computed(() => {
         </section>
       </div>
     </div>
-    <button class="px-4 py-2 rounded bg-green-500">
+    <button class="btn btn-primary">
       Abschliessen und Speichern
     </button>
-    <button @click.prevent="emit('abort')" class="underline text-green-600">
+    <button @click.prevent="emit('abort')" class="btn btn-link">
       Abbrechen
     </button>
   </div>

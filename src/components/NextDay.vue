@@ -22,19 +22,20 @@ const nextPlan = computed(() => {
     const p = plans.value ?? [];
     const lastIndex = p.findIndex(({ id }) => lastDay.value?.day === id)
     if (lastIndex >= 0) {
-        return p[lastIndex + 1 % p.length]
+        return p[(lastIndex + 1) % p.length]
     }
 })
 
 </script>
 <template>
     <template v-if="!error">
-        <section v-if="nextPlan" class="rounded bg-slate-900 p-4 flex flex-col gap-4 ">
-            <span>Nächste Einheit: <strong>{{ nextPlan.name }}</strong></span>
-            <router-link :to="'/log/' + nextPlan.id" custom v-slot="{ navigate }" v-if="nextPlan">
-                <action-button @click="form.clear(); navigate()">Starten</action-button>
-            </router-link>
+        <section v-if="nextPlan" class="card bg-base-200">
+            <div class="card-body">
+                <span>Nächste Einheit: <strong>{{ nextPlan.name }}</strong></span>
+                <router-link :to="'/log/' + nextPlan.id" custom v-slot="{ navigate }" v-if="nextPlan">
+                    <action-button @click="form.clear(); navigate()">Starten</action-button>
+                </router-link>
+            </div>
         </section>
-
     </template>
 </template>

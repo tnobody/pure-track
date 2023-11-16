@@ -61,15 +61,15 @@ const applyToNextFreeFormSpot = (repetitions: number, weight: number) => {
 </script>
 <template>
   <li ref="ulRef" class="snap-start h-full w-screen gap-4 transform transition-transform ease-in-out">
-    <div class="p-4 h-full rounded bg-slate-900 flex flex-col gap-4">
+    <div class="p-4 h-full rounded flex flex-col gap-4">
       <div>
         <h2 class="text-2xl">{{ entry.expand.exercise.name }}</h2>
       </div>
       <table class="py-2">
         <thead>
-          <tr class="text-xs font-normal">
+          <tr class="text-xs font-normal text-neutral-content">
             <th class="w-2 font-normal text-left capitalize">Set</th>
-            <th class="w-[calc(5ch_+_2rem)] font-normal text-center capitalize">
+            <th class="w-[calc(5ch_+_2rem)] font-normal text-center capitalize ">
               Wdh
             </th>
             <th class="w-[calc(8ch_+_2rem)] font-normal text-center capitalize">
@@ -81,7 +81,7 @@ const applyToNextFreeFormSpot = (repetitions: number, weight: number) => {
         <tbody class="first:rounded-t last:rounded-b overflow-hidden">
           <template v-for="set of entry.expand.sets" :key="set.id">
             <tr class="input-row">
-              <td class="p-4 pl-0 text-left text-green-700 font-bold flex items-start">
+              <td class="p-4 pl-0 text-left text-secondary font-bold flex items-start">
                 {{ set.set }}
                 <input type="hidden" name="set" :value="set.set" />
                 <input type="hidden" name="day" :value="entry.expand.day.id" />
@@ -133,7 +133,7 @@ const applyToNextFreeFormSpot = (repetitions: number, weight: number) => {
               </div>
             </div>
             <div v-if="h.comment"
-              class=" text-center text-sm text-slate-500 italic before:content-[open-quote] after:content-[close-quote]">
+              class=" text-center text-sm text-neutral-content italic before:content-[open-quote] after:content-[close-quote]">
               {{ h.comment }}</div>
           </li>
         </ul>
@@ -143,11 +143,11 @@ const applyToNextFreeFormSpot = (repetitions: number, weight: number) => {
 </template>
 <style>
 input {
-  @apply w-full box-border rounded bg-green-300/10 focus:outline-none flex-1 p-2;
+  @apply input input-bordered w-full flex-1;
 }
 
 input.touched {
-  @apply invalid:ring-red-600 ring-offset-0 invalid:ring-2
+  @apply input-error;
 }
 
 input[type="number"] {
