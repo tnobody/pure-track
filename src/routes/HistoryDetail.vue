@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import Page from '../components/Page.vue';
-import { groupBy, reverse } from '../helper/array'
+import { groupBy, reverse, sort } from '../helper/array'
 import { useCollection } from '../composables/pocketbase';
 import { Exercise, Log } from '../model/ExerciseSet';
 import { computed } from 'vue';
@@ -17,7 +17,7 @@ const { data } = useCollection<Log & ExpandWith<"exercise", Exercise>>('Log', {
 })
 
 const group = computed(() => groupBy(reverse(data.value ?? []), log => log.expand.exercise.name));
-
+const sortBySet = (list: Log[]) => sort(list, (a, b) => a.set - b.set)
 </script>
 <template>
     <Page back-target="/history/">
@@ -36,7 +36,7 @@ const group = computed(() => groupBy(reverse(data.value ?? []), log => log.expan
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="set of reverse(sets)">
+                    <tr v-for="set of sortBySet(sets)">
                         <td>{{ set.set }}</td>
                         <td>{{ set.targetRep }}</td>
                         <td>{{ set.weight }}</td>

@@ -32,3 +32,9 @@ export const reverse = <T>(list: T[]) => {
   _list.reverse();
   return _list;
 };
+
+export const sort = <T>(list: T[], cmp?: (a: T, b: T) => number) => {
+  const _list = [...list];
+  _list.sort(cmp);
+  return _list;
+};
