@@ -32,10 +32,23 @@ const currentPlan = computed(() => {
       <next-day></next-day>
     </section>
 
-    <section class="card bg-base-200 bg-neutral-color join join-vertical">
-      <router-link v-for="day of state" :key="day.id" @click.native="clear()" :to="'/log/' + day.id" v-slot="{ navigate }">
-        <button @click="navigate" class="join-item btn text-left font-bold">{{ day.name }}</button>
-      </router-link>
-    </section>
+    <div class="flex flex-col gap-2">
+      <h3 class="text-sm font-bold pl-4">Einheiten</h3>
+      <section class="card bg-base-200 bg-neutral-color join join-vertical">
+        <router-link v-for="day of state" :key="day.id" @click.native="clear()" :to="'/log/' + day.id"
+          v-slot="{ navigate }">
+          <button @click="navigate" class="join-item btn text-left font-bold">{{ day.name }}</button>
+        </router-link>
+      </section>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <h3 class="text-sm font-bold pl-4">Mehr</h3>
+      <section class="card bg-base-200 bg-neutral-color join join-vertical">
+        <router-link to="/history" v-slot="{ navigate }">
+          <button @click="navigate" class="join-item btn text-left font-bold">Verlauf</button>
+        </router-link>
+      </section>
+    </div>
   </div>
 </template>
