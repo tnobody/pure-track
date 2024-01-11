@@ -1,3 +1,5 @@
+import { CollectionEntry } from "./base";
+
 export type ExerciseSet = {
   id: string;
   set: number;
@@ -19,11 +21,8 @@ export type ExerciseSet = {
   };
 };
 
-export type Log = {
-  collectionId: string;
-  collectionName: "Log";
+export type Log = CollectionEntry<{
   comment: string;
-  created: string;
   date: string;
   day: string;
   exercise: string;
@@ -32,4 +31,8 @@ export type Log = {
   set: number;
   targetRep: number;
   weight: number;
-};
+}>;
+
+export type Exercise = CollectionEntry<{
+  name: "French Press am Kabelzug";
+}>;
