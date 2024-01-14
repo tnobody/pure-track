@@ -12,7 +12,7 @@ const filter = computed(() => {
     let filters = []
     if (props.exercise) {
         filters.push(`exercise = '${props.exercise}'`)
-    } else if ('day' in props) {
+    } else if (props.day) {
         filters.push(`day = '${props.day}'`)
     }
     return filters.join(' && ')
