@@ -6,8 +6,9 @@ import Pocketbase from "pocketbase";
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "./routes/Index.vue";
 import Log from "./routes/Log.vue";
-import History from "./routes/History.vue";
-import HistoryDetail from "./routes/HistoryDetail.vue";
+import History from "./routes/history/History.vue";
+import HistoryDetail from "./routes/history/HistoryDetail.vue";
+import DayHistory from "./routes/history/DayHistory.vue";
 import { TouchedDirective } from "./directive/touched-directive";
 
 createApp(App)
@@ -19,6 +20,7 @@ createApp(App)
         { path: "/log/:planId", component: Log },
         { path: "/history", component: History },
         { path: "/history/:date", component: HistoryDetail },
+        { path: "/history/day/:dayId", component: DayHistory },
       ],
     })
   )

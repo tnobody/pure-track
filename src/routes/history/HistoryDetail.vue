@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import Page from '../components/Page.vue';
-import { groupBy, reverse, sort } from '../helper/array'
-import { useCollection } from '../composables/pocketbase';
-import { Exercise, Log } from '../model/ExerciseSet';
+import Page from '../../components/Page.vue';
+import { groupBy, reverse, sort } from '../../helper/array'
+import { useCollection } from '../../composables/pocketbase';
+import { Exercise, Log } from '../../model/ExerciseSet';
 import { computed } from 'vue';
-import { ExpandWith } from '../model/base';
-import IntlDate from '../components/IntlDate.vue';
+import { ExpandWith } from '../../model/base';
+import IntlDate from '../../components/IntlDate.vue';
 
 const route = useRoute()
 const { date } = route.params

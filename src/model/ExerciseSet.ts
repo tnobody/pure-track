@@ -33,6 +33,7 @@ export type Log = CollectionEntry<{
   weight: number;
 }>;
 
+
 export type Exercise = CollectionEntry<{
-  name: "French Press am Kabelzug";
+  name: string;
 }>;

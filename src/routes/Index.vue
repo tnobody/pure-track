@@ -5,6 +5,7 @@ import { usePersistedForm } from "../composables/usePersistedForm";
 import { computed } from "vue";
 import NextDay from "../components/NextDay.vue";
 import ActionButton from "../components/ActionButton.vue";
+import { ChartBarSquareIcon, PlayIcon } from "@heroicons/vue/24/outline";
 
 const { data: state } = useCollection<{ id: string; name: string }>("PlanDay", {
   sort: 'order'
@@ -35,10 +36,19 @@ const currentPlan = computed(() => {
     <div class="flex flex-col gap-2">
       <h3 class="text-sm font-bold pl-4">Einheiten</h3>
       <section class="card bg-base-200 bg-neutral-color join join-vertical">
-        <router-link v-for="day of state" :key="day.id" @click.native="clear()" :to="'/log/' + day.id"
-          v-slot="{ navigate }">
-          <button @click="navigate" class="join-item btn text-left font-bold">{{ day.name }}</button>
-        </router-link>
+        <div v-for="day of state" :key="day.id">
+          <div class="join-item p-4 text-sm text-left font-bold flex justify-between">
+            <span>{{ day.name }}</span>
+            <span class="flex gap-4 items-center">
+              <router-link :to="'/history/day/' + day.id">
+                <ChartBarSquareIcon class="text-primary h-6" />
+              </router-link>
+              <router-link :to="'/log/' + day.id"  @click.native="clear()">
+                <PlayIcon class="text-primary h-6" />
+              </router-link>
+            </span>
+          </div>
+        </div>
       </section>
     </div>
 
